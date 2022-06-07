@@ -62,7 +62,7 @@ public class ZombieJuanAntonio : MonoBehaviour
     {
         if(encontrado)
         {
-            if (Vector3.Distance(this.transform.position,jugadorEncontrado.transform.position)<2.4)
+            if (Vector3.Distance(this.transform.position,jugadorEncontrado.transform.position)<3)
             {
                 animador.SetBool("Caminar", false);
                 agenteNav.ResetPath();
