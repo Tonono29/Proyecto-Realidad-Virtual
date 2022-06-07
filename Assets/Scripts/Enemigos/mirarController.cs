@@ -65,7 +65,6 @@ public class mirarController : MonoBehaviour
                 if ((hit.transform.gameObject.tag == "Jugador")&&(lanzando==false))
                 {
                     lanzando = true;
-                    Debug.Log("Voy a lanzar la corutina");
                     StartCoroutine("LanzarPan", hit.transform.position);
                     Debug.DrawRay(ojos[i].transform.position, ojos[i].transform.forward * hit.distance, Color.yellow);
                 }
@@ -97,12 +96,11 @@ public class mirarController : MonoBehaviour
     {
         GameObject proyectilPan;
         Vector3 diresion = (posicion - puntoLanzamiento.transform.position).normalized;
-        animador.SetBool("Lanzar", true);
-        yield return new WaitForSeconds(0.5f);
+        animador.SetTrigger("Lanzar");
+        yield return new WaitForSeconds(0.7f);
         proyectilPan=Instantiate(barraPan,puntoLanzamiento.transform.position,Quaternion.identity);
         proyectilPan.GetComponent<Rigidbody>().AddForce(diresion * 10, ForceMode.Impulse);
         yield return new WaitForSeconds(2f);
-        animador.SetBool("Lanzar", false);
         lanzando = false;
     }
 }

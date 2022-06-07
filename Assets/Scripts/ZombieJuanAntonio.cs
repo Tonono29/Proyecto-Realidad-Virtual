@@ -6,18 +6,20 @@ using UnityEngine.AI;
 public class ZombieJuanAntonio : MonoBehaviour
 {
     private GameObject[] ojos;
-    private bool encontrado;
     [SerializeField] Animator animador;
     private NavMeshAgent agenteNav;
     private Vector3 posicionObjetivo;
-    bool persiguiendo = false;
+    bool encontrado = false;
+    GameObject jugadorEncontrado=null;
+    public float distansia;
+    Transform correccionTransform;
+
 
     private void Awake()
     {
         ojos = new GameObject[35];
         agenteNav = GetComponent<NavMeshAgent>();
         // arriba
-
         ojos[0] = transform.GetChild(0).transform.GetChild(0).transform.GetChild(0).transform.gameObject;
         ojos[1] = transform.GetChild(0).transform.GetChild(0).transform.GetChild(1).transform.gameObject;
         ojos[2] = transform.GetChild(0).transform.GetChild(0).transform.GetChild(2).transform.gameObject;
@@ -51,27 +53,46 @@ public class ZombieJuanAntonio : MonoBehaviour
     private void FixedUpdate()
     {
         mirar();
+        if (jugadorEncontrado!=null)
+        {
+            distansia = Vector3.Distance(this.transform.position, jugadorEncontrado.transform.position);
+        }   
+    }
+    private void Update()
+    {
+        if(encontrado)
+        {
+            if (Vector3.Distance(this.transform.position,jugadorEncontrado.transform.position)<2.4)
+            {
+                animador.SetBool("Caminar", false);
+                agenteNav.ResetPath();
+                correccionTransform = jugadorEncontrado.transform;
+                //correccionTransform.position += new Vector3(0f, -1.3f, 0f);
+                //this.transform.LookAt(correccionTransform);
+                animador.SetTrigger("Pegar");
+            }
+            else
+            {
+                Debug.Log("Voy a por el");
+                agenteNav.SetDestination(jugadorEncontrado.transform.position);
+                animador.SetBool("Caminar", true);
+            }
+        }
     }
 
     private void mirar()
     {
-        encontrado = false;
-
         for (int i = 0; i < 21; i++)
         {
             RaycastHit hit;
-
             if (Physics.Raycast(ojos[i].transform.position, ojos[i].transform.forward, out hit, 15))
             {
-                if ((hit.transform.gameObject.tag == "Jugador")&&(encontrado==false))
+                if ((hit.transform.gameObject.tag=="Jugador")&&(encontrado==false))
                 {
-                    posicionObjetivo = hit.transform.position;
-                    if (persiguiendo==false)
-                    {
-                        StartCoroutine("Perseguir");
-                        persiguiendo = true;
-                        encontrado = true;
-                    }
+                    jugadorEncontrado = hit.transform.gameObject;
+                    agenteNav.SetDestination(jugadorEncontrado.transform.position);
+                    animador.SetBool("Caminar", false);
+                    encontrado = true;
                     Debug.DrawRay(ojos[i].transform.position, ojos[i].transform.forward * hit.distance, Color.yellow);
                 }
                 else
@@ -85,15 +106,14 @@ public class ZombieJuanAntonio : MonoBehaviour
             }
         }
     }
-    IEnumerator Perseguir()
+    /*private void Perseguir()
     {
-        Debug.Log("Voy a perseguir");
+        Debug.Log("Voy a perseguir"); 
         animador.SetBool("Caminar", true);
         bool alcanzado = false;
         agenteNav.SetDestination(posicionObjetivo);
         while (alcanzado==false)
         {
-            yield return new WaitForSeconds(1f);
             if (Vector3.Distance(posicionObjetivo, this.transform.position) < 1)
             {
                 animador.SetBool("Pegar", true);
@@ -102,5 +122,5 @@ public class ZombieJuanAntonio : MonoBehaviour
             }
         }
 
-    }
+    }*/
 }
