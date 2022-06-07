@@ -100,6 +100,7 @@ public class mirarController : MonoBehaviour
         yield return new WaitForSeconds(0.7f);
         proyectilPan=Instantiate(barraPan,puntoLanzamiento.transform.position,Quaternion.identity);
         proyectilPan.GetComponent<Rigidbody>().AddForce(diresion * 10, ForceMode.Impulse);
+        proyectilPan.GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(2f);
         lanzando = false;
     }
