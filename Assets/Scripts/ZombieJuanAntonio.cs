@@ -62,7 +62,7 @@ public class ZombieJuanAntonio : MonoBehaviour
     {
         if(encontrado)
         {
-            if (Vector3.Distance(this.transform.position,jugadorEncontrado.transform.position)<3)
+            if (Vector3.Distance(this.transform.position,jugadorEncontrado.transform.position)<2.8)
             {
                 animador.SetBool("Caminar", false);
                 agenteNav.ResetPath();
@@ -73,7 +73,6 @@ public class ZombieJuanAntonio : MonoBehaviour
             }
             else
             {
-                Debug.Log("Voy a por el");
                 agenteNav.SetDestination(jugadorEncontrado.transform.position);
                 animador.SetBool("Caminar", true);
             }
@@ -104,6 +103,13 @@ public class ZombieJuanAntonio : MonoBehaviour
             {
                 Debug.DrawRay(ojos[i].transform.position, ojos[i].transform.forward * 15, Color.white);
             }
+        }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag=="Maza")
+        {
+            Destroy(this);
         }
     }
     /*private void Perseguir()

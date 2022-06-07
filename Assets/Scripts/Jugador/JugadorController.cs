@@ -25,5 +25,9 @@ public class JugadorController : MonoBehaviour
         {
             Debug.Log("He colisionado con " + collision.gameObject.name);
         }
+        if (collision.gameObject.tag=="Princesa")
+        {
+            SceneManager.LoadScene("Victoria");
+        }
     }
 }

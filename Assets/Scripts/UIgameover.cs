@@ -9,4 +9,8 @@ public class UIgameover : MonoBehaviour
     {
         SceneManager.LoadScene("EscenaPrincipal");
     }
+    public void Salir()
+    {
+        Application.Quit();
+    }
 }

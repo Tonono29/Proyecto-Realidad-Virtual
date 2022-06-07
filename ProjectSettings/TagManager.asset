@@ -7,6 +7,8 @@ TagManager:
   - Jugador
   - Llave
   - Enemigo
+  - Maza
+  - Princesa
   layers:
   - Default
   - TransparentFX

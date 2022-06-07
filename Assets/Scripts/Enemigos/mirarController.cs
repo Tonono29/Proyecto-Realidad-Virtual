@@ -103,4 +103,11 @@ public class mirarController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         lanzando = false;
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Maza")
+        {
+            Destroy(this);
+        }
+    }
 }
