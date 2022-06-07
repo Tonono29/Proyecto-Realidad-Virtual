@@ -18,6 +18,9 @@ public class MensajesUI : MonoBehaviour
                 case "PuertaCerrada":
                     textoui.text = "Esta puerta esta cerrada y no se puede abrir, busque otra y puerta y use la llave que acaba de conseguir";
                     break;
+                case "Cuidado":
+                    textoui.text = "CUIDADO hay un enemigo, deberias tener ya un Arma y esta sala hay un escudo";
+                    break;
                 default:
                     break;    
             }
